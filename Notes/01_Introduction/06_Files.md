@@ -1,74 +1,73 @@
 [Contents](../Contents.md) \| [Previous (1.5 Lists)](05_Lists.md) \| [Next (1.7 Functions)](07_Functions.md)
 
-# 1.6 File Management
+# 1.6 文件处理
 
-Most programs need to read input from somewhere. This section discusses file access.
+大多数程序需要从某些地方读取输入的数据。本节将讨论文件的访问。
 
-### File Input and Output
+### 文件的输入和输出
 
-Open a file.
+打开一个文件
 
 ```python
-f = open('foo.txt', 'rt')     # Open for reading (text)
-g = open('bar.txt', 'wt')     # Open for writing (text)
+f = open('foo.txt', 'rt')     # 打开文件来读
+g = open('bar.txt', 'wt')     # 打开文件来写
 ```
 
-Read all of the data.
+读取所有的数据
 
 ```python
 data = f.read()
 
-# Read only up to 'maxbytes' bytes
+# 最多读取 'maxbytes' 字节数据
 data = f.read([maxbytes])
 ```
 
-Write some text.
+写入一些数据
 
 ```python
 g.write('some text')
 ```
 
-Close when you are done.
+完成后关闭
 
 ```python
 f.close()
 g.close()
 ```
 
-Files should be properly closed and it's an easy step to forget.
-Thus, the preferred approach is to use the `with` statement like this.
+文件应正确关闭，但这是一个容易忘记的步骤。因此，首选的方法是下面这样使用 with 语句
 
 ```python
 with open(filename, 'rt') as file:
-    # Use the file `file`
+    # 使用 `file`
     ...
-    # No need to close explicitly
+    # 无需显式的关闭
 ...statements
 ```
 
-This automatically closes the file when control leaves the indented code block.
+当离开 with 缩进的代码块时，会自动关闭文件。
 
-### Common Idioms for Reading File Data
+### 读取文件的习惯用法
 
-Read an entire file all at once as a string.
+以字符串形式一次读取整个文件
 
 ```python
 with open('foo.txt', 'rt') as file:
     data = file.read()
-    # `data` is a string with all the text in `foo.txt`
+    # `data` 是一个字符串，包含 `foo.txt` 文件的所有内容
 ```
 
-Read a file line-by-line by iterating.
+通过迭代逐行读取数据
 
 ```python
 with open(filename, 'rt') as file:
     for line in file:
-        # Process the line
+        # 在这里处理每行数据
 ```
 
-### Common Idioms for Writing to a File
+### 写入文件的习惯用法
 
-Write string data.
+写入字符串数据
 
 ```python
 with open('outfile', 'wt') as out:
@@ -76,7 +75,7 @@ with open('outfile', 'wt') as out:
     ...
 ```
 
-Redirect the print function.
+重定向打印功能
 
 ```python
 with open('outfile', 'wt') as out:
@@ -84,13 +83,9 @@ with open('outfile', 'wt') as out:
     ...
 ```
 
-## Exercises
+## 练习
 
-These exercises depend on a file `Data/portfolio.csv`.  The file
-contains a list of lines with information on a portfolio of stocks.
-It is assumed that you are working in the `practical-python/Work/`
-directory.  If you're not sure, you can find out where Python thinks
-it's running by doing this:
+这些练习依赖于文件 `Data/portfolio.csv`。该文件包含行列表以及有关股票投资组合的信息。假设你正在 `practical-python/Work/` 目录中工作。如果不确定运行位置，可以通过执行以下操作找出 Python 的运行位置：
 
 ```python
 >>> import os
@@ -99,9 +94,9 @@ it's running by doing this:
 >>>
 ```
 
-### Exercise 1.26: File Preliminaries
+### 练习 1.26：文件练习准备工作
 
-First, try reading the entire file all at once as a big string:
+首先，将文件作为大字符串一次性读取。
 
 ```python
 >>> with open('Data/portfolio.csv', 'rt') as f:
@@ -121,18 +116,11 @@ name,shares,price
 >>>
 ```
 
-In the above example, it should be noted that Python has two modes of
-output.  In the first mode where you type `data` at the prompt, Python
-shows you the raw string representation including quotes and escape
-codes.  When you type `print(data)`, you get the actual formatted
-output of the string.
+在上面的示例中，应注意 Python 具有两种输出模式。在第一种模式下，你在提示符下键入 `data`，Python 向你显示原始字符串的表示形式，包括引号和转义码。当你键入 `print(data)` 时，你将获得字符串实际的格式化输出。
 
-Although reading a file all at once is simple, it is often not the
-most appropriate way to do it—especially if the file happens to be
-huge or if contains lines of text that you want to handle one at a
-time.
+尽管一次读取一个文件很简单，但通常不是最合适的处理方式 —— 尤其是当文件碰巧很大或包含需要一次处理一个的文本行时。
 
-To read a file line-by-line, use a for-loop like this:
+要逐行读取文件，请使用如下所示的for循环：
 
 ```python
 >>> with open('Data/portfolio.csv', 'rt') as f:
@@ -146,12 +134,9 @@ name,shares,price
 >>>
 ```
 
-When you use this code as shown, lines are read until the end of the
-file is reached at which point the loop stops.
+当你用如上所示的代码时，将按行读取，直到文件末尾，然后循环停止。
 
-On certain occasions, you might want to manually read or skip a
-*single* line of text (e.g., perhaps you want to skip the first line
-of column headers).
+在某些情况下，你可能希望手动读取或跳过一行文本（例如：你可能想跳过第一行的列标题数据。）
 
 ```python
 >>> f = open('Data/portfolio.csv', 'rt')
@@ -168,12 +153,9 @@ of column headers).
 >>>
 ```
 
-`next()` returns the next line of text in the file. If you were to call it repeatedly, you would get successive lines.
-However, just so you know, the `for` loop already uses `next()` to obtain its data.
-Thus, you normally wouldn’t call it directly unless you’re trying to explicitly skip or read a single line as shown.
+`next()` 用来返回文件中的下一行文本。如果反复的调用它，则会得到连续的行。然而，就像你知道的，我们已经在 `for`  循环中使用 `next()`  来获取其数据。因此，除非你视图显式的跳过或者读取一行，否者通常不会直接调用它。
 
-Once you’re reading lines of a file, you can start to perform more processing such as splitting.
-For example, try this:
+读取文件行后，你可以执行更多的处理操作，例如进行拆分。尝试以下操作：
 
 ```python
 >>> f = open('Data/portfolio.csv', 'rt')
@@ -190,33 +172,27 @@ For example, try this:
 >>> f.close()
 ```
 
-*Note: In these examples, `f.close()` is being called explicitly because the `with` statement isn’t being used.*
+*注意：在上面这些例子中，因为没有使用 `with` 语句，所以显式调用了 `f.close()` 。*
 
-### Exercise 1.27: Reading a data file
+### 练习 1.27：读取一个数据文件
 
-Now that you know how to read a file, let’s write a program to perform a simple calculation.
+现在你已经学会了如何读取文件，让我们来编写一个程序来执行简单的计算。
 
-The columns in `portfolio.csv` correspond to the stock name, number of
-shares, and purchase price of a single stock holding.  Write a program called
-`pcost.py` that opens this file, reads all lines, and calculates how
-much it cost to purchase all of the shares in the portfolio.
+`portfolio.csv` 中的列对应于股票名称，股票数量和单股股票的购买价格。编写一个名为`pcost.py` 的程序，打开该文件，读取所有行，并计算购买所有股票的费用。
 
-*Hint: to convert a string to an integer, use `int(s)`. To convert a string to a floating point, use `float(s)`.*
+*提示：将字符串转换为整数，请使用 `int(s)`。转换为浮点数，请使用`float(s)`。*
 
-Your program should print output such as the following:
+你的程序应该会打印如下所示的内容：
 
 ```bash
 Total cost 44671.15
 ```
 
-### Exercise 1.28: Other kinds of "files"
+### 练习 1.28：其他类型的“文件”
 
-What if you wanted to read a non-text file such as a gzip-compressed
-datafile?  The builtin `open()` function won’t help you here, but
-Python has a library module `gzip` that can read gzip compressed
-files.
+如果您想读取非文本文件，如 gzip 压缩的数据文件，应该怎么办？内置的 `open()` 函数在这里无济于事，但是 Python 有一个模块库 `gzip` ，可以读取 gzip 压缩文件。
 
-Try it:
+来尝试一下：
 
 ```python
 >>> import gzip
@@ -224,25 +200,14 @@ Try it:
     for line in f:
         print(line, end='')
 
-... look at the output ...
+... 查看输出内容 ...
 >>>
 ```
 
-Note: Including the file mode of `'rt'` is critical here.  If you forget that,
-you'll get byte strings instead of normal text strings.
+注意：在这里`'rt'` 的文件模式至关重要。如果您忘记了这一点，将获得字节字符串而不是普通的文本字符串。
 
-### Commentary:  Shouldn't we being using Pandas for this?
+### 评论：为什么我们不使用 Pandas 呢？
 
-Data scientists are quick to point out that libraries like
-[Pandas](https://pandas.pydata.org) already have a function for
-reading CSV files.  This is true--and it works pretty well.
-However, this is not a course on learning Pandas. Reading files
-is a more general problem than the specifics of CSV files.
-The main reason we're working with a CSV file is that it's a
-familiar format to most coders and it's relatively easy to work with
-directly--illustrating many Python features in the process.
-So, by all means use Pandas when you go back to work.  For the
-rest of this course however, we're going to stick with standard
-Python functionality.
+数据科学家很快指出，像 [Pandas](https://pandas.pydata.org)  这样的库已经具有读取 CSV 文件的功能。的确如此-而且效果很好。但是，这不是学习 Pandas 的课程。读取文件是比读取特定的 CSV 文件更普遍的问题。我们使用 CSV 文件的主要原因是，它是大多数开发者熟悉的格式，并且相对容易说明此过程中的许多 Python 特性。这就意味着，当你回去工作时，还是应该使用 Pandas。但是，在本课程的其余部分中，我们将继续使用标准 Python 功能。
 
 [Contents](../Contents.md) \| [Previous (1.5 Lists)](05_Lists.md) \| [Next (1.7 Functions)](07_Functions.md)
