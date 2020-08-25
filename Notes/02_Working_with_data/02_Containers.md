@@ -53,7 +53,6 @@ with open('Data/portfolio.csv', 'rt') as f:
         row = line.split(',')
         records.append((row[0], int(row[1]), float(row[2])))
 ```
-> `Data/portfolio.csv`  文件地址：Gitee，GtiHub
 
 ### 字典
 
@@ -99,7 +98,6 @@ with open('Data/prices.csv', 'rt') as f:
         row = line.split(',')
         prices[row[0]] = float(row[1])
 ```
-> `Data/prices.csv`  文件地址：Gitee，GtiHub
 
 
 注意：如果你在`Data/prices.csv` 文件上操作，你会发现它基本是可以工作——但末尾有一个空行会导致它崩溃。你需要找出一些方法来修改代码以解决此问题（请参阅 练习2.6）
@@ -196,7 +194,6 @@ s1 - s2                 # 求集合的不同
 ## 练习
 
 在这些练习中，你将开始构建本课程其余部分使用的主要程序之一。在 `Work/report.py` 中进行练习。
-> `Data/report.csv`  文件地址：Gitee，GtiHub
 
 ### 练习 2.4: 一个元组的列表
 
